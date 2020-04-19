@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ManageCrtptoEtc.cs" />
     <Compile Include="ManangeCrypto.cs" />
     <Compile Include="ManageFiles.cs" />
     <Compile Include="Program.cs" />
