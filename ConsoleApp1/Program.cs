@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 
 namespace ConsoleApp1
 {
@@ -8,26 +8,23 @@ namespace ConsoleApp1
     {
         private static void Main(string[] args)
         {
-            ManangeCrypto.GenerateKey(256);
-            string inputFile = @"E:\DotNetWorkspace\ConsoleApp1\ConsoleApp1\cover.jpg";
-            string saveSplitFolder = Path.GetDirectoryName(inputFile) + "\\" + Guid.NewGuid().ToString();
-             
-            ManageFiles.splitFile(inputFile, saveSplitFolder);
+            //string keyAndIVBase64 = ManangeCrypto.GenerateKey(256);
+            string inputFilePath = @"C:\Users\cmi\Desktop\encrypeandsplit-master\ConsoleApp1\test.pdf";
+            string currentDirectoryFile = Path.GetDirectoryName(inputFilePath);
+            string newFolderName = Guid.NewGuid().ToString();
+            string saveSplitFolderPath = currentDirectoryFile + "\\" + newFolderName;
+            string keyAndIVBase64 = "WTBES2ZLU2owSW5SbEh1S044QkpwaUozRE5zTzVFOVFWUlJCNkJnUGpLMD0sQTZuN2J6cnlvV09INzk1bTlnTU9vcGJVenduOWFkMEYyQzJSclIySm1FYz0=";
+            int numberOfFiles = 10;
+            ManageFiles.WriteSplitAndEncryptFiles(inputFilePath, saveSplitFolderPath, keyAndIVBase64, numberOfFiles);
 
-            //Merge
-            var files = ManageFiles.ReadFileTemp(saveSplitFolder);
-            string extension = string.Empty;
-            if (files.Any())
-            {
-                if (string.IsNullOrEmpty(extension)) {
-                    extension = Path.GetFileName(files[0]).Split('.').Reverse().ToList().ElementAt(1);
-                } 
-                string mergeFileName = Path.GetDirectoryName(inputFile) + "\\" + Guid.NewGuid().ToString() + "." + extension;
-              // int chunkSize = 20 * 1024;
-                ManageFiles.merge(files, mergeFileName);
-            }
 
+            string mergeFileName = currentDirectoryFile;
+            string folderEncryptFiles = currentDirectoryFile + "\\" + newFolderName;
+
+            string saveFilePath = ManageFiles.DecryptAndWriteFile(folderEncryptFiles, keyAndIVBase64, mergeFileName);
+            Console.WriteLine(saveFilePath);
             Console.ReadLine();
         }
+
     }
 }
